@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="new.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="style.css" type = "text/css"/>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <title>replit</title>
+  
+</head>
+
+<body>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa4dMSOASs_iLQnhrPoQ8EZgj2Im_pZ7o&callback=initMap&v=weekly&channel=2"
+    async
+
+  ></script>
+    
+    <button id ="HomeButton">Home</button>
+    <input type="button" id="UserButton" value="User Inputted Markers"></input>
+    <input type="button" id="API" value="API inputted markers"></input>
+    <input type="button" id="Voice" value="Voice inputted markers"></input>
+
+
+  <main>
+   
+    
+    <section id = "Home">
+        <h1> Marking UTIL</h1>
+        <h3> WELCOME</h3>
+        <p>
+        <br> This apps purpose is to allow users to get familiar with google maps, but specifically its markers.
+        <br> This app contains an additional 3 pages. </br> </p>
+    
+        <h5>List of pages in order</h5>
+        <ol>
+        <li>User Inputted Markers</li>
+        <li>API inputted markers</li>
+        <li>Voice inputted markers</li>
+        </ol>   
+    </section>
+
+    <section id = "userInput" >
+        
+     
+      <div id = "form1">
+      <form method="POST">
+        
+          <label for="department">longitude:</label><br>
+    <input type="text" id="long" name="department"><br>
+    <input type="button" id="getDatag" value="Get Data"></input>
+        </div>
+      <div id = "form2">
+  </form>
+      <form method="POST">
+          <label for="department">Lattiude:</label><br>
+    <input type="text" id="lati" name="department"><br>
+    <input type="button" id="getDatai" value="Get Data"></input>
+  </form>
+      </div>
+      <div id="map1"></div>
+  
+      <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+     
+      <script>
+        let map;
+  var lati;
+   var lngi;
+    document.querySelector("#getDatag")
+          .addEventListener ( "click", (evt) => {
+  ;
+   lngi = document.querySelector("#lati").value;
+            
+   lati = document.querySelector("#long").value;
+            var lat = parseInt(lati)
+      var lng =parseInt(lngi) 
+    let range = { lat: lat, lng: lng}
+        
+         marker = new google.maps.Marker({
+      position: range,
+      draggable: false,
+      animation: google.maps.Animation.DROP,
+      map,
+      title: "Hello World!"
+      
+    }); 
+          marker.addListener("click", toggleBounce);
+          
+           });
+  
+        
+  function initMap() {
+   
+   const myD =  { lat: 41.8696, lng: -87.6496  }
+    map = new google.maps.Map(document.getElementById("map1"), {
+      center: myD,
+      zoom: 15,
+    });
+    navigator.geolocation.getCurrentPosition(function(position) {
+    let lat = position.coords.latitude;
+     let long = position.coords.longitude;
+     let range = { lat: lat, lng: long};
+
+     marker = new google.maps.Marker({
+      position: myD,
+      draggable: false,
+      animation: google.maps.Animation.DROP,
+      map,
+      title: "Hello World!"
+      
+    });
+    });
+
+  }
+           
+        function toggleBounce() {
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
+          
+  </script>
+            
+    </section>
+
+    <section id = "ApiInput" > 
+        <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea mdc-text-field--no-label">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <span class="mdc-text-field__resizer">
+              <textarea class="mdc-text-field__input" rows="8" cols="40" aria-label="Label"></textarea>
+            </span>
+          </label>
+          
+              <button id ="listen">Start Listening</button>
+              <input type="button" id="ploti" value="plot"></input>
+    
+              <div id="map"></div>
+    
+             
+          
+              <script>
+       
+           var geocoder;
+          
+              // Speech Recognition
+    
+              function initMap() {
+                geocoder = new google.maps.Geocoder();
+       const myD =  { lat: 41.8696, lng: -87.6496  }
+        map= new google.maps.Map(document.getElementById("map"), {
+          center: myD,
+          zoom: 15,
+        });
+       
+        marker = new google.maps.Marker({
+          position: myD,
+          draggable: false,
+          animation: google.maps.Animation.DROP,
+          map,
+          title: "Hello World!"
+          
+        });
+    
+      };
+      var count = 0;
+     
+     
+    let url = "country-codes-lat-long-alpha3.json";
+    
+      
+    
+      document.querySelector("#ploti")
+              .addEventListener ( "click", (evt) => {
+                let c = document.querySelector(".mdc-text-field__input");
+                var v = c.value;
+               
+                console.log(v);
+                fetch (url)
+      .then ( (response) => {
+        return response.json();
+      }).then ( (json) => {
+        //  console.log(json)
+        count =0;
+    var object = json["ref_country_codes"];
+    console.log(object);
+        for(var i =0; i< object.length; i++) {
+          console.log(object[i]["country"]);
+          
+               if( (object[i]["country"]) ==(v)) {
+                 count =1;
+                
+                 let lat = (object[i]["latitude"]);
+                 let long = (object[i]["longitude"])
+                 var LAT =  parseInt(lat);
+                var LONG =  parseInt(long);
+                let range = { lat: LAT, lng: LONG}
+               
+                     marker = new google.maps.Marker({
+          position: range,
+          draggable: false,
+          animation: google.maps.Animation.DROP,
+          map,
+          title: "Hello World!"
+                
+              });
+    
+               }
+          //    marker = new google.maps.Marker({
+          // position: range,
+          // draggable: false,
+          // animation: google.maps.Animation.DROP,
+          // map,
+          // title: "Hello World!"
+                
+          //     });
+             }
+    
+             if(count ==0) {
+               alert("COUNTRY NOT FOUND");
+             }
+    
+    
+            });
+    
+          });
+              
+              let recognition = new window.webkitSpeechRecognition()
+              
+              recognition.addEventListener('result', (e) => {
+                console.log(e)
+               let c = document.querySelector(".mdc-text-field__input");
+                // let p = document.createElement("p");
+                // p.innerText = e.results[0][0].transcript;
+                // console.log(p);
+                c.value = e.results[0][0].transcript;
+              });
+          
+              document.querySelector("#listen").addEventListener("click", (e) => {
+          
+                if (e.srcElement.innerText == "Start Listening") {
+                  recognition.start();
+                  e.srcElement.innerText = "Stop Listening";
+                } else {
+          
+                  recognition.stop();
+                  e.srcElement.innerText = "Start Listening";        
+                }
+                
+              });
+            let synth = window.speechSynthesis;
+                
+                // speak any paragraph content
+                // document.querySelector("body")
+                    document.querySelector(".mdc-text-field__input")
+                  .addEventListener("click", (e) => {
+                    console.log(e);
+    
+                    
+      
+                // var address = e.srcElement.value;
+                // geocoder.geocode( { 'address': address}, function(results, status) {
+                //   if (status == 'OK') {
+                //     map.setCenter(results[0].geometry.location);
+                //     var marker = new google.maps.Marker({
+                //         map: map,
+                //         position: results[0].geometry.location
+                //     });
+                //   } else {
+                //     alert('Geocode was not successful for the following reason: ' + status);
+                //   }
+                // });
+      
+                    
+                    
+                    // if the clicked element is a paragraph
+                    // let c = document.querySelector(".mdc-text-field__input");
+                   
+          
+                      let utterance = new SpeechSynthesisUtterance(e.srcElement.value);
+                    console.log(e.value);
+                      utterance.voice = synth.getVoices()[0];
+                      speechSynthesis.speak(utterance);
+                    
+                  
+                  
+                  });
+              </script>
+    </section>
+
+    <section id = "VoiceInput" > 
+       hh
+    </section>
+
+        <script>
+            document.querySelector("#HomeButton")
+    .addEventListener ( "click", (evt) => {
+    let v = document.querySelector("#Home").style.display;
+    let v1 = document.querySelector("#userInput").style.display;
+    let v2 = document.querySelector("#ApiInput").style.display;
+    let v3 = document.querySelector("#VoiceInput").style.display;
+    if(v == 'none') {
+    document.querySelector("#Home").style.display= 'block';
+    }
+    if(v1 != 'none') {
+    document.querySelector("#userInput").style.display = 'none';
+    }
+
+    if(v2 != 'none') {
+     document.querySelector("#ApiInput").style.display = 'none';
+    }
+
+    if(v3 != 'none') {
+        document.querySelector("#VoiceInput").style.display = 'none';
+    }
+
+    });
+
+    document.querySelector("#UserButton")
+    .addEventListener ( "click", (evt) => {
+        let v = document.querySelector("#Home").style.display;
+    let v1 = document.querySelector("#userInput").style.display;
+    let v2 = document.querySelector("#ApiInput").style.display;
+    let v3 = document.querySelector("#VoiceInput").style.display;
+    if(v != 'none') {
+    document.querySelector("#Home").style.display= 'none';
+    }
+    
+    document.querySelector("#userInput").style.display = 'block';
+    
+    
+
+    if(v2 != 'none') {
+        document.querySelector("#ApiInput").style.display = 'none';
+    
+    }
+
+    if(v3 != 'none') {
+        document.querySelector("#VoiceInput").style.display = 'none';
+    
+    }});
+
+    document.querySelector("#API")
+    .addEventListener ( "click", (evt) => {
+        let v = document.querySelector("#Home").style.display;
+    let v1 = document.querySelector("#userInput").style.display;
+    let v2 = document.querySelector("#ApiInput").style.display;
+    let v3 = document.querySelector("#VoiceInput").style.display;
+    if(v != 'none') {
+    document.querySelector("#Home").style.display= 'none';
+    }
+    if(v1 != 'none') {
+    document.querySelector("#userInput").style.display = 'none';
+    
+    }
+
+    if(v2 == 'none') {
+        document.querySelector("#ApiInput").style.display = 'block';
+    
+    }
+
+    if(v3 != 'none') {
+        document.querySelector("#VoiceInput").style.display = 'none';
+    
+    }});
+
+    document.querySelector("#Voice")
+    .addEventListener ( "click", (evt) => {
+        let v = document.querySelector("#Home").style.display;
+    let v1 = document.querySelector("#userInput").style.display;
+    let v2 = document.querySelector("#ApiInput").style.display;
+    let v3 = document.querySelector("#VoiceInput").style.display;
+    if(v != 'none') {
+    document.querySelector("#Home").style.display= 'none';
+    }
+    if(v1 != 'none') {
+    document.querySelector("#userInput").style.display = 'none';
+    
+    }
+
+    if(v2 != 'none') {
+        document.querySelector("#ApiInput").style.display = 'none';
+    
+    }
+
+    if(v3 == 'none') {
+        document.querySelector("#VoiceInput").style.display = 'block';
+    
+    }});
+        </script>
+
+
+
+
+  </main>
+
+  
+ 
+</body>
+
+</html>

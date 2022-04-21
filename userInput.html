@@ -1,0 +1,110 @@
+
+<html>
+    <head>
+     
+      <link rel="stylesheet" href="style.css">
+      <title>Simple Map</title>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+      <!-- jsFiddle will insert css and js -->
+    </head>
+    <body>
+        <ul class ="nav-bar">
+            <a class = "active" href="index.html">Home</a></li>
+            <a href="userinput.html">User Inputted Markers</a></li>
+            <a href="API.html">API inputted markers</a></li>
+            <a href="voice.html">Voice inputted markers</a></li>
+          </ul>
+      
+     
+      <div id = "form1">
+      <form method="POST">
+        
+          <label for="department">longitude:</label><br>
+    <input type="text" id="long" name="department"><br>
+    <input type="button" id="getData" value="Get Data"></input>
+        </div>
+      <div id = "form2">
+  </form>
+      <form method="POST">
+          <label for="department">Lattiude:</label><br>
+    <input type="text" id="lati" name="department"><br>
+    <input type="button" id="getDatai" value="Get Data"></input>
+  </form>
+      </div>
+      <div id="map"></div>
+  
+      <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa4dMSOASs_iLQnhrPoQ8EZgj2Im_pZ7o&callback=initMap&v=weekly&channel=2"
+        async
+  
+      ></script>
+      <script>
+        let map;
+  var lati;
+   var lngi;
+    document.querySelector("#getData")
+          .addEventListener ( "click", (evt) => {
+  ;
+   lngi = document.querySelector("#lati").value;
+            
+   lati = document.querySelector("#long").value;
+            var lat = parseInt(lati)
+      var lng =parseInt(lngi) 
+    let range = { lat: lat, lng: lng}
+        
+         marker = new google.maps.Marker({
+      position: range,
+      draggable: false,
+      animation: google.maps.Animation.DROP,
+      map,
+      title: "Hello World!"
+      
+    }); 
+          marker.addListener("click", toggleBounce);
+          
+           });
+  
+        
+  function initMap() {
+   
+   const myD =  { lat: 41.8696, lng: -87.6496  }
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: myD,
+      zoom: 15,
+    });
+    navigator.geolocation.getCurrentPosition(function(position) {
+    let lat = position.coords.latitude;
+     let long = position.coords.longitude;
+     let range = { lat: lat, lng: long};
+
+     marker = new google.maps.Marker({
+      position: myD,
+      draggable: false,
+      animation: google.maps.Animation.DROP,
+      map,
+      title: "Hello World!"
+      
+    });
+    });
+
+   
+        
+
+   
+  
+    
+  
+  }
+           
+        function toggleBounce() {
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
+          
+  </script>
+    </body>
+  </html>

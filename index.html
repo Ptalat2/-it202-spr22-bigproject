@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>marking util</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script>
+    if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  };
+  </script>
+  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+  
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+</head>
+
+<body>
+  <ul class ="nav-bar">
+  <a class = "active" href="index.html">Home</a></li>
+  <a href="userinput.html">User Inputted Markers</a></li>
+  <a href="API.html">API inputted markers</a></li>
+  <a href="voice.html">Voice inputted markers</a></li>
+</ul>
+
+
+
+<div class = "home">
+    <h1> Marking UTIL</h1>
+    <h3> WELCOME</h3>
+    <p>
+    <br> This apps purpose is to allow users to get familiar with google maps, but specifically its markers.
+    <br> This app contains an additional 3 pages. </br> </p>
+
+    <h5>List of pages in order</h5>
+    <ol>
+    <li>User Inputted Markers</li>
+    <li>API inputted markers</li>
+    <li>Voice inputted markers</li>
+    </ol>   
+    
+</div>
+
+<button id="basic-switch" class="mdc-switch mdc-switch--unselected" type="button" role="switch" aria-checked="false">
+  <div class="mdc-switch__track"></div>
+  <div class="mdc-switch__handle-track">
+    <div class="mdc-switch__handle">
+      <div class="mdc-switch__shadow">
+        <div class="mdc-elevation-overlay"></div>
+      </div>
+      <div class="mdc-switch__ripple"></div>
+      <div class="mdc-switch__icons">
+        <svg class="mdc-switch__icon mdc-switch__icon--on" viewBox="0 0 24 24">
+          <path d="M19.69,5.23L8.96,15.96l-4.23-4.23L2.96,13.5l6,6L21.46,7L19.69,5.23z" />
+        </svg>
+        <svg class="mdc-switch__icon mdc-switch__icon--off" viewBox="0 0 24 24">
+          <path d="M20 13H4v-2h16v2z" />
+        </svg>
+      </div>
+    </div>
+  
+  </div>
+</button>
+   
+<label for="basic-switch">off/on</label>
+    
+<script>
+const db = new Dexie("MODE");
+      db.version(1).stores({
+      Modes: 'name'
+    });
+
+       db.Modes.where("name").equals("mode").toArray((arr) =>
+         (arr) => {console.log(arr)
+
+    if(arr.length ==0) {
+      db.Modes.add({name: "mode", value: "light"});
+      
+    } else {
+      let mode = arr[0]["value"];
+      document.querySelector("body").className = mode;
+    }
+  });
+</script>
+
+
+    <script> 
+      const setMode = (mode) => {
+      if(mode == "dark") {
+        
+       document.querySelector("body").classList.remove("light");
+     document.querySelector("body").classList.add("dark");   
+        
+      } else {
+          
+       document.querySelector("body").classList.remove("dark");
+     document.querySelector("body").classList.add("light");   
+      }
+      }
+      function showAlert(mode) {
+    var myText;
+    if(mode == "dark") {
+        myText = "DARK MODE!";
+    } else {
+        myText = "LIGHT MODE!";
+    }
+    alert (myText);
+  }
+        
+      const modeSwitch = new mdc.switchControl.MDCSwitch(document.querySelector(".mdc-switch"));
+      document.querySelector(".mdc-switch").addEventListener("click", (e) => {
+        
+        console.log(modeSwitch.selected);
+        
+          let newMODE = modeSwitch.selected ? "dark" : "light";
+
+        document.querySelector("body").className = newMODE;
+        // db.Modes.
+
+        
+
+        
+  
+      });
+       showAlert(newMODE);
+     setMode(newMODE);
+      
+    </script>
+
+  
+</body>
+
+
+</html>

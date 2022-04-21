@@ -1,0 +1,67 @@
+.nav-bar {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .nav-bar a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  .nav-bar a:hover {
+    background-color: #ddd;
+    
+  }
+  
+  .nav-bar a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  body {
+    background-color: grey;
+  }
+  main {
+    height: 100%;
+    width: 100%; 
+  }
+  #map {
+    height: 100%;
+    width: 100%; 
+    position: absolute;
+  }
+
+  #map1 {
+    height: 100%;
+    width: 100%; 
+    position: absolute;
+  }
+
+  #map2 {
+    height: 100%;
+    width: 100%; 
+    position: absolute;
+  }
+  
+  /* Optional: Makes the sample page fill the window. */
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+   #form1 {
+      float: right ;
+      }
+
+      
+     
+
+#listen {
+  margin:left;
+}
+  
