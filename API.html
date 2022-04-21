@@ -17,98 +17,15 @@
 </head>
 
 <body>
-  <ul class ="nav-bar">
-  <a class = "active" href="index.html">Home</a></li>
-  <a href="userinput.html">User Inputted Markers</a></li>
-  <a href="API.html">API inputted markers</a></li>
-  <a href="voice.html">Voice inputted markers</a></li>
-</ul>
-
-  <button id="basic-switch" class="mdc-switch mdc-switch--unselected" type="button" role="switch" aria-checked="false">
-  <div class="mdc-switch__track"></div>
-  <div class="mdc-switch__handle-track">
-    <div class="mdc-switch__handle">
-      <div class="mdc-switch__shadow">
-        <div class="mdc-elevation-overlay"></div>
-      </div>
-      <div class="mdc-switch__ripple"></div>
-      <div class="mdc-switch__icons">
-        <svg class="mdc-switch__icon mdc-switch__icon--on" viewBox="0 0 24 24">
-          <path d="M19.69,5.23L8.96,15.96l-4.23-4.23L2.96,13.5l6,6L21.46,7L19.69,5.23z" />
-        </svg>
-        <svg class="mdc-switch__icon mdc-switch__icon--off" viewBox="0 0 24 24">
-          <path d="M20 13H4v-2h16v2z" />
-        </svg>
-      </div>
-    </div>
-  
-  </div>
-</button>
-   
-<label for="basic-switch">off/on</label>
-    
-<script>
-const db = new Dexie("MODE");
-      db.version(1).stores({
-      Modes: 'name'
-    });
-
-       db.Modes.where("name").equals("mode").toArray((arr) =>
-         (arr) => {console.log(arr)
-
-    if(arr.length ==0) {
-      db.Modes.add({name: "mode", value: "light"});
-      
-    } else {
-      let mode = arr[0]["value"];
-      document.querySelector("body").className = mode;
-    }
-  });
-</script>
+    <ul class="nav-bar">
+    <a class="active" href="index.html">Home</a></li>
+    <a href="userinput.html">User Inputted Markers</a></li>
+    <a href="API.html">API inputted markers</a></li>
+    <a href="voice.html">Voice inputted markers</a></li>
+    <a href="data.html">data markers</a></li>
+  </ul>
 
 
-    <script> 
-      const setMode = (mode) => {
-      if(mode == "dark") {
-        
-       document.querySelector("body").classList.remove("light");
-     document.querySelector("body").classList.add("dark");   
-        
-      } else {
-          
-       document.querySelector("body").classList.remove("dark");
-     document.querySelector("body").classList.add("light");   
-      }
-      }
-      function showAlert(mode) {
-    var myText;
-    if(mode == "dark") {
-        myText = "DARK MODE!";
-    } else {
-        myText = "LIGHT MODE!";
-    }
-    alert (myText);
-  }
-        
-      const modeSwitch = new mdc.switchControl.MDCSwitch(document.querySelector(".mdc-switch"));
-      document.querySelector(".mdc-switch").addEventListener("click", (e) => {
-        
-        console.log(modeSwitch.selected);
-        
-          let newMODE = modeSwitch.selected ? "dark" : "light";
-
-        document.querySelector("body").className = newMODE;
-        // db.Modes.
-
-        
-
-           showAlert(newMODE);
-     setMode(newMODE);
-  
-      });
-    
-      
-    </script>
 
     <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea mdc-text-field--no-label">
         <span class="mdc-notched-outline">
@@ -159,6 +76,8 @@ const db = new Dexie("MODE");
  
  
 let url = "country-codes-lat-long-alpha3.json";
+
+ 
 
   
 
