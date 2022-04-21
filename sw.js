@@ -3,7 +3,7 @@ self.addEventListener('install', function(event) {
       caches.open('sw-cache').then(function(cache) {
         return cache.add('index.html') && cache.add('API.html') && cache.add('voice.html') && cache.add('userInput.html') 
         && cache.add('country-codes-lat-long-alpha3.json') 
-        && cache.add('style.css') && cache.add('christmas-tree.png');
+        && cache.add('style.css') && cache.add('christmas-tree.png') && cache.add('school.json');
       })
     );
   });
