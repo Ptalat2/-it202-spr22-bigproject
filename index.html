@@ -8,11 +8,7 @@
   <title>marking util</title>
   <link rel="manifest" href="/manifest.webmanifest">
  
-  <script>
-    if('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  };
-  </script>
+  
   <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
   
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
@@ -51,7 +47,15 @@
     
 </div>
 
-
+<script>
+  
+      window.addEventListener("load", () => {
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("/sw.js");
+        }
+      });
+    
+</script>
 
   
 </body>
