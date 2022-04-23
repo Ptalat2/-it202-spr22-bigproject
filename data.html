@@ -1,45 +1,71 @@
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>marking util</title>
-    <link rel="manifest" href="/manifest.webmanifest">
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <script>
-    
-    </script>
-    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
-  
-    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-  </head>
-  
-  <body>
-    <ul class="nav-bar">
-      <a class="active" href="index.html">Home</a></li>
-      <a href="userinput.html">User Inputted Markers</a></li>
-      <a href="API.html">API inputted markers</a></li>
-      <a href="voice.html">Voice inputted markers</a></li>
-      <a href="data.html">data markers</a></li>
-    </ul>
-  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>marking util</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link href="style.css" rel="stylesheet" type="text/css" />
   <script>
-    let  object;
-  let url1 = "school.json";
- fetch(url1).then ((response) => {
-  return response.json();
- }).then(json => {
-   console.log(json);
-   alert("hey");
-   object =  json["schools"];
-   console.log(object);
- })
+  
   </script>
-  
-   
-  
-  
-  </body>
-  
-  
-  </html>
+  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+</head>
+
+<body>
+  <ul class="nav-bar">
+    <a class="active" href="index.html">Home</a></li>
+    <a href="userinput.html">User Inputted Markers</a></li>
+    <a href="API.html">API inputted markers</a></li>
+    <a href="voice.html">Voice inputted markers</a></li>
+    <a href="data.html">data markers</a></li>
+  </ul>
+
+  <form>
+    <label>Choose school name</label><br>
+    <select id="choose">
+      <option >school</option>
+    <input type="submit" value="Submit" id = "submit">
+  </form>
+
+
+<script>
+  let  object;
+  var db = new Dexie("SchoolDatabase");
+let url1 = "school.json";
+fetch(url1).then ((response) => {
+return response.json();
+}).then(json => {
+ console.log(json);
+ object =  json["schools"];
+ console.log(object);
+});
+let school;
+let lat;
+let lon;
+let street;
+
+db.version(1).stores({
+      Schools: `
+        name,
+        street,
+        lon,
+        lat`,
+    });
+
+    for(var i =0; i<object.length; i++) {
+      let group = {name: object[i]["name"],street: object[i]["levels"]["street"], lon:object[i]["levels"]["longitude"], lat:object[i]["levels"]["latitude"]};
+      db.Schools.bulkPut([group]);
+    }
+
+</script>
+
+ 
+
+
+</body>
+
+
+</html>
