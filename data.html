@@ -30,8 +30,38 @@
     <input type="submit" value="Submit" id = "submit">
   </form>
 
+  <div id="map"></div>
+
+  <script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa4dMSOASs_iLQnhrPoQ8EZgj2Im_pZ7o&callback=initMap&v=weekly&channel=2"
+  async
+
+></script>
+
 
 <script>
+  let map;
+  function initMap() {
+   
+   const myD =  { lat: 41.8696, lng: -87.6496  }
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: myD,
+      zoom: 15,
+    });
+     marker = new google.maps.Marker({
+      position: myD,
+      draggable: false,
+      animation: google.maps.Animation.DROP,
+      map,
+      title: "My School" 
+    });
+    
+  }
+
+
+
+
+
   let  object;
   var db = new Dexie("SchoolDatabase");
 let url1 = "school.json";
@@ -49,6 +79,7 @@ let street;
 
 db.version(1).stores({
       Schools: `
+        index,
         name,
         street,
         lon,
@@ -56,9 +87,28 @@ db.version(1).stores({
     });
 
     for(var i =0; i<object.length; i++) {
-      let group = {name: object[i]["name"],street: object[i]["levels"]["street"], lon:object[i]["levels"]["longitude"], lat:object[i]["levels"]["latitude"]};
+      let v = document.querySelector("#choose");
+      let opt = document.createElement("option");
+      if(typeof object[i]["levels"]["longitude"]!= "undefined" && typeof object[i]["levels"]["latitude"] != "undefined") {
+      opt.innerText = object[i]["levels"]["street"];
+      v.appendChild(opt);
+      let group = { index: i, name: object[i]["name"],street: object[i]["levels"]["street"], lon:object[i]["levels"]["longitude"], lat:object[i]["levels"]["latitude"]};
       db.Schools.bulkPut([group]);
+      }
     }
+
+
+    let get = document.querySelector("#submit");
+    get.addEventListener('click', (e) => {
+        let val = document.querySelector("#choose").value;
+        var DBOpenRequest = window.indexedDB.open("SchoolDatabase", 1);
+        var transaction = db.transaction(["SchoolDatabase"], "readwrite");
+        var objectStoreRequest = objectStore.get(val);
+        let myRecord = objectStoreRequest.result;
+        console.log(myRecord);
+    });
+  
+   
 
 </script>
 
