@@ -148,7 +148,7 @@ const db = new Dexie("MODE");
             var lat = parseInt(lati)
       var lng =parseInt(lngi) 
     let range = { lat: lat, lng: lng}
-        
+         map.setCenter(range);
          marker = new google.maps.Marker({
       position: range,
       draggable: false,

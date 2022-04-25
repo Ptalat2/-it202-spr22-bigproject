@@ -27,7 +27,7 @@
     <label>Choose school name</label><br>
     <select id="choose">
       <option >school</option>
-    <input type="submit" value="Submit" id = "submit">
+    <input type="click" value="Submit" id = "submit">
   </form>
 
   <div id="map"></div>
@@ -57,26 +57,7 @@
     });
     
   }
-
-
-
-
-
-  let  object;
-  var db = new Dexie("SchoolDatabase");
-let url1 = "school.json";
-fetch(url1).then ((response) => {
-return response.json();
-}).then(json => {
- console.log(json);
- object =  json["schools"];
- console.log(object);
-});
-let school;
-let lat;
-let lon;
-let street;
-
+let db = new Dexie("SchoolDatabase");
 db.version(1).stores({
       Schools: `
         index,
@@ -86,26 +67,52 @@ db.version(1).stores({
         lat`,
     });
 
-    for(var i =0; i<object.length; i++) {
+
+
+  let  object;
+  
+let url1 = "school.json";
+fetch(url1).then ((response) => {
+return response.json();
+}).then(json => {
+ console.log(json);
+ object =  json["schools"];
+ console.log(object);
+  for(var i =0; i<object.length; i++) {
       let v = document.querySelector("#choose");
       let opt = document.createElement("option");
-      if(typeof object[i]["levels"]["longitude"]!= "undefined" && typeof object[i]["levels"]["latitude"] != "undefined") {
-      opt.innerText = object[i]["levels"]["street"];
+     // if(typeof object[i]["levels"]["longitude"]!= "undefined" && typeof object[i]["levels"]["latitude"] != "undefined") {
+      opt.innerText = (object[i]["street"]);
+       
       v.appendChild(opt);
-      let group = { index: i, name: object[i]["name"],street: object[i]["levels"]["street"], lon:object[i]["levels"]["longitude"], lat:object[i]["levels"]["latitude"]};
+      let group = { index: i, name: object[i]["name"],street: object[i]["street"], lon:object[i]["longitude"], lat:object[i]["latitude"]};
       db.Schools.bulkPut([group]);
-      }
-    }
+    //  }
+    };
+});
+let school;
+let lat;
+let lon;
+let street;
 
 
+
+    
+
+// 
     let get = document.querySelector("#submit");
     get.addEventListener('click', (e) => {
         let val = document.querySelector("#choose").value;
-        var DBOpenRequest = window.indexedDB.open("SchoolDatabase", 1);
-        var transaction = db.transaction(["SchoolDatabase"], "readwrite");
-        var objectStoreRequest = objectStore.get(val);
-        let myRecord = objectStoreRequest.result;
-        console.log(myRecord);
+        console.log(val);
+        // let key =  db.Schools.get(val);
+        // console.log(key);
+        
+        // db.Schools.get(0).then ((k) => {
+        //       let v = k.target.value;
+        //       console.log(v);
+        // });
+
+      
     });
   
    
