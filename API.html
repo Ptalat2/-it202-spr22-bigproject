@@ -106,7 +106,7 @@ console.log(object);
              var LAT =  parseInt(lat);
             var LONG =  parseInt(long);
             let range = { lat: LAT, lng: LONG}
-           
+               map.setCenter(range);
                  marker = new google.maps.Marker({
       position: range,
       draggable: false,
