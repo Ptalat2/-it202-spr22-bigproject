@@ -27,7 +27,7 @@
     <label>Choose school name</label><br>
     <select id="choose">
       <option >school</option>
-    <input type="click" value="Submit" id = "submit">
+    <input type="button" value="Submit" id = "submit">
   </form>
 
   <div id="map"></div>
@@ -104,13 +104,51 @@ let street;
     get.addEventListener('click', (e) => {
         let val = document.querySelector("#choose").value;
         console.log(val);
-        // let key =  db.Schools.get(val);
-        // console.log(key);
+        fetch(url1).then ((response) => {
+return response.json();
+}).then(json => {
+  let object = json["schools"];
+  var i =0;
+  while(i < object.length) {
+
+    if(object[i]["street"] == val) {
+      let contentString = object[i]["name"]  ;
+      const infowindow = new google.maps.InfoWindow({
+       content: contentString,
+     });
+     
+     let string = "The number for " + object[i]["name"] +" school is " + object[i]["contact_number"];
+     let synth = window.speechSynthesis;
+     let utterance = new SpeechSynthesisUtterance(string);
+                console.log(string, utterance);
+                  utterance.voice = synth.getVoices()[100];
+                  speechSynthesis.speak(utterance);
+      let range = { lat: object[i]["latitude"] , lng: object[i]["longitude"]  }
+      map.setCenter(range);
+      marker = new google.maps.Marker({
+      position: range,
+      draggable: false,
+      animation: google.maps.Animation.DROP,
+      map,
+      title: "My School" 
         
-        // db.Schools.get(0).then ((k) => {
-        //       let v = k.target.value;
-        //       console.log(v);
-        // });
+    });
+    marker.addListener("click", () => {
+      infowindow.open({
+        anchor: marker,
+        map,
+        shouldFocus: false,
+      });
+   });
+
+      i =object.length;
+
+    } else { 
+    ++i;
+    }
+  }
+})
+        
 
       
     });
